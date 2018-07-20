@@ -7,20 +7,15 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using WebCosmoGame.Code.Services;
 
 namespace WebCosmoGame.Code
 {
-    public class Program
+    static public class Program
     {
-        public static void Main(string[] args)
+        static public void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            Game game = new Game();
+            game.Run();
         }
-
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<WebServer>()
-                .Build();
     }
 }
