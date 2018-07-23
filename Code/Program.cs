@@ -14,8 +14,11 @@ namespace WebCosmoGame.Code
     {
         static public void Main(string[] args)
         {
-            Game game = new Game();
-            game.Run();
+            BuildWebHost(args).Run();
         }
+        static public IWebHost BuildWebHost(string[] args) => 
+            WebHost.CreateDefaultBuilder(args) 
+                .UseStartup<Startup>() 
+                .Build(); 
     }
 }
