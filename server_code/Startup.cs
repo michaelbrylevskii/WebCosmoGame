@@ -7,17 +7,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder; 
 using Microsoft.AspNetCore.Hosting; 
 using Microsoft.AspNetCore.Http; 
-using Microsoft.Extensions.DependencyInjection; 
- 
-namespace WebCosmoGame.Code 
+using Microsoft.Extensions.DependencyInjection;
+using WebCosmoGame.GameCore;
+
+namespace WebCosmoGame
 { 
     public class Startup 
     {
+        Game game;
         Task gameTask;
 
         public Startup()
         {
-            var game = new Game();
+            game = new Game();
+            game.Init();
             gameTask = game.RunAsync();
         }
         // This method gets called by the runtime. Use this method to add services to the container. 
@@ -59,19 +62,26 @@ namespace WebCosmoGame.Code
  
         private void ConnectRequestHandler(IApplicationBuilder app) 
         { 
-            app.Use(async (context, next) => 
+            app.Use(WebSocketPlayer.Connect);
+            /*app.Use(async (context, next) => 
             { 
                 if (context.WebSockets.IsWebSocketRequest) 
                 { 
-                    WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync(); 
-                    await Echo(context, webSocket); 
+                    WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
+                    
+                    WebSocketPlayer player = new WebSocketPlayer(webSocket);
+                    game.GameMgr.AddPlayer(player);
+
+                    //var buffer = new byte[1024 * 4]; 
+                    //await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                    //await Echo(context, webSocket); 
                 } 
                 else 
                 { 
                     context.Response.StatusCode = 400; 
                 } 
  
-            }); 
+            }); */
         } 
  
         private async Task Echo(HttpContext context, WebSocket webSocket) 

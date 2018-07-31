@@ -1,6 +1,6 @@
 using System;
 
-namespace WebCosmoGame.Code.DataTypes
+namespace WebCosmoGame.DataTypes
 {
     /// <summary>
     /// Координаты двух точек в двумерном пространстве типа float.
@@ -34,6 +34,11 @@ namespace WebCosmoGame.Code.DataTypes
             Y = y;
             W = w;
             H = h;
+        }
+
+        override public string ToString()
+        {
+            return $"X:{X} Y:{Y} W:{W} H:{H}";
         }
     }
 }
